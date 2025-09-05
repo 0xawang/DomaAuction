@@ -1,0 +1,26 @@
+{
+  "name": "doma-auction",
+  "version": "1.0.0",
+  "description": "Hybrid Dutch Auction Protocol for Domain NFTs",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js --network doma",
+    "verify": "npx hardhat verify --network doma  0xE680A0F580f742a536B33C142757b4C8BE5CfB40 0x04B36cADFD85F2561c0e8A676E0aCe5cBA8c7485 0x424bDf2E8a6F52Bd2c1C81D9437b0DC0309DF90f"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.12",
+    "chai": "^4.2.0",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.14.0",
+    "hardhat": "^2.19.0",    
+    "hardhat-contract-sizer": "^2.10.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "@openzeppelin/contracts-upgradeable": "^4.9.0"
+  }
+}
