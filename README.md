@@ -3,6 +3,7 @@
         <img alt="logo" src="https://github.com/0xawang/DomaAuction/blob/main/domain-auction-banner.png" style="width: 100%;">
     </a>
 </div>
+
 # DomaAuction - Hybrid Dutch Auction Protocol
 
 A next-generation auction system for domain NFTs featuring batch auctions, gamified bidding, and dynamic royalties.
