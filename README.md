@@ -1,3 +1,9 @@
+<div align="center">
+    <a href="https://ixfi.network.com">
+        <img alt="logo" src="https://github.com/0xawang/DomaAuction/blob/main/domain-auction-banner.png" style="width: 100%;">
+    </a>
+</div>
+
 # DomaAuction - Dual Auction Protocol
 
 A comprehensive auction ecosystem for domain NFTs featuring two specialized systems: Hybrid Batch Auctions for portfolios and Premium Single Domain Auctions with sophisticated betting mechanisms.
