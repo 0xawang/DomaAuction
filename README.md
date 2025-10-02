@@ -8,7 +8,7 @@
 
 A comprehensive auction ecosystem for domain NFTs featuring four specialized systems: Hybrid Batch Auctions for portfolios, Premium Single Domain Auctions with betting, Auction-Backed Lending for liquidity, and Domain Voting Contests for community engagement.
 
-## Why This Protocol is Innovative
+## Innovation
 
 The Quad Auction Protocol represents a paradigm shift in NFT auction design by integrating **four complementary economic mechanisms** into a single, cohesive ecosystem. Unlike traditional single-mechanism auction platforms, our protocol creates **network effects** where each system enhances the others:
 
@@ -555,11 +555,17 @@ npx hardhat run scripts/deploy.js --network doma
 - **Doma OwnershipToken**: `0x424bDf2E8a6F52Bd2c1C81D9437b0DC0309DF90f`
 
 **System 1 - Hybrid Batch Auctions:**
-- **HybridDutchAuction**: Deployed via script
-- **LoyaltyNFT**: Deployed via script
+- **HybridDutchAuction**: 0xE680A0F580f742a536B33C142757b4C8BE5CfB40
+- **LoyaltyNFT**: 0x04B36cADFD85F2561c0e8A676E0aCe5cBA8c7485
 
 **System 2 - Premium Single Domain + Betting:**
-- **DomainAuctionBetting**: Deployed via script
+- **DomainAuctionBetting**: 0x5A11663fc4cBfa62E01C3bbCfDb10f37549B38D2
+
+**System 3 - Auction Backed Lending:**
+- **AuctionBackedLending**: 0x11814d7d0927EEAcE1801356254F8Ea258da2385
+
+**System 4 - Domain Voting Contest:**
+- **DomainAuctionBetting**: 0xE507304592D06F67b86DE449f29A2029010F2d7B
 
 ## Events
 
