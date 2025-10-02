@@ -1,6 +1,6 @@
-# 🌐 Tri Auction Protocol – Hackathon Proposal
+# 🌐 Quad Auction Protocol
 
-## System 1: Hybrid Batch Auctions for Domain Portfolios  
+## System 1: Hybrid Batch Auctions for Domain Portfolios
 
 **Problem:**  
 Traditional auctions handle domains individually, making it hard for large holders to liquidate portfolios and excluding small buyers.  
@@ -89,10 +89,11 @@ Static royalties don’t adapt to urgency. Sellers either undercharge or scare a
 **Problem:**  
 Batch auctions serve portfolios well, but premium single domains need focused attention and additional engagement mechanisms.
 
-**Solution (Separate Contract System):**  
+**Solution (Separate Contract System):**
 - **Independent Single-Domain Auctions**: Dedicated Dutch auctions for premium domains
+- **First-Bid-Wins Mechanism**: Immediate auction completion for efficiency
 - **Commit–Reveal Betting**: Parallel betting system on auction outcomes
-- **Complete Separation**: No dependency on batch auction system
+- **Complete Separation**: Independent operation from batch auction system
 
 **4-Tier Price Betting Mechanism:**  
 - **Price Categories**: Above High (3), High~Low Range (2), Below Low (1), Uncleared (0)
@@ -128,7 +129,7 @@ Batch auctions serve portfolios well, but premium single domains need focused at
 ## System 3: Auction-Backed Lending (ABL) for Domain Auctions
 
 **Problem:**
-Sellers often need liquidity upfront before an auction ends. Buyers sometimes hesitate to bid if they don't know the seller will follow through. Existing NFT auctions don't integrate credit or loan markets.
+Sellers often need liquidity upfront before an auction ends. Buyers sometimes hesitate to bid if they don&apos;t know the seller will follow through. Existing NFT auctions don&apos;t integrate credit or loan markets.
 
 **Solution: Auction-Backed Lending**
 Our protocol allows sellers to borrow stablecoins upfront, collateralized by their domain NFT. The NFT is locked in the auction contract. The protocol or external lenders fund up to 30-50% of the estimated floor price.
@@ -152,7 +153,57 @@ Seller lists premium.eth with reserve price = 10,000 USDC. Seller requests 4,000
 
 ---
 
-## Tri Architecture System
+## System 4: Domain Voting Contest
+
+**Problem:**
+Domain marketplaces lack community engagement and social discovery mechanisms. Users need ways to discover trending domains while earning rewards for participation.
+
+**Solution: Gamified Social Layer**
+Introduce a voting contest where community members stake tokens to vote for favorite domains, earning long-term staking rewards while boosting domain visibility.
+
+**Key Features:**
+
+1. **Contest Lifecycle**
+- Only one contest active at any given time
+- Contest created by hoster with: startTime, endTime, minStake (e.g., 100 tokens), stakeMultiplier (e.g., 5 → maxStake = minStake × 5)
+
+2. **Voting Mechanism**
+- Users vote for up to 3 domains
+- Vote weight = staking amount (not time-cumulated)
+- Stake per user bounded: minStake ≤ stake ≤ minStake × multiplier
+- Votes locked until contest ends
+
+3. **Anti-Sybil & Fairness**
+- Token staking required to vote
+- Staking cap prevents whales from dominating
+- Each wallet participates only once per contest
+
+4. **Voter Rewards**
+- **Staking Points (time-cumulated)**: StakingPoints = StakeAmount × TimeStaked
+- Encourages early participation and long-term engagement
+- **Rewards distributed after contest**: Fee discounts in future domain auctions/sales, priority whitelists for next contests
+
+5. **Contest Ranking**
+- Domain score = sum of votes (stake amounts)
+- Rankings public and verifiable on-chain
+
+**Example Flow:**
+1. Hoster launches contest (10 days, minStake = 100, multiplier = 5)
+2. Alice stakes 300 → votes for 3 domains
+3. Bob stakes 200 → votes for 2 domains
+4. Carol stakes 500 → votes for 1 domain
+5. Contest ends: Domain A = 500, B = 500, C = 300
+6. Staking points: Alice 3,000, Bob 2,000, Carol 5,000
+7. Users redeem rewards in next auction round
+
+**Benefits:**
+- **Domain Owners**: Visibility, ranking-based promotion, higher sale chances
+- **Voters**: Tangible rewards (NFTs, discounts, points)
+- **Marketplace**: Increased engagement, token utility, fair ecosystem governance
+
+---
+
+## Quad Architecture System
 
 **Batch Auction Flow (HybridDutchAuction):**  
 1. **Seller** lists domain portfolio  
@@ -177,11 +228,18 @@ Seller lists premium.eth with reserve price = 10,000 USDC. Seller requests 4,000
 **Auction-Backed Lending Flow (AuctionBackedLending):**
 1. **Seller** lists domain in batch auction and requests loan against it
 2. **Lending Contract**:
-    - Loan terms encoded (amount, interest, duration)
-    - Lenders fund loan in stablecoins
-    - NFT remains locked in auction contract
+     - Loan terms encoded (amount, interest, duration)
+     - Lenders fund loan in stablecoins
+     - NFT remains locked in auction contract
 3. **Auction runs** with collateralized domain
 4. **Settlement**: Loan auto-repaid from proceeds, or NFT liquidated to lenders on failure
+
+**Domain Voting Contest Flow (VotingContest):**
+1. **Hoster** creates contest with parameters (startTime, endTime, minStake, multiplier)
+2. **Domain Owners** list their domains for voting consideration
+3. **Voters** stake tokens and vote for up to 3 domains
+4. **Contest Runs** with real-time ranking updates
+5. **Settlement**: Winners receive rewards, staking points calculated, domains returned to owners
 
 ---
 
@@ -262,7 +320,7 @@ Seller lists premium.eth with reserve price = 10,000 USDC. Seller requests 4,000
 
 ---
 
-## Hackathon Benefits for Doma
+## Benefits for Doma
 
 - 🚀 **Liquidity boost**: Batch + fractionalization + lending increase volumes.
 - 💰 **Capital access**: Sellers get upfront liquidity, enabling more auctions.
@@ -274,7 +332,7 @@ Seller lists premium.eth with reserve price = 10,000 USDC. Seller requests 4,000
 
 ## 🔑 Takeaway
 
-This **Tri Auction Protocol** provides three specialized systems:
+This **Quad Auction Protocol** provides four specialized systems:
 
 **🎯 System 1 - Hybrid Batch Auctions:**
 - **Portfolio Trading** for scale and liquidity
@@ -285,7 +343,8 @@ This **Tri Auction Protocol** provides three specialized systems:
 **🏆 System 2 - Premium Single Domain + Betting:**
 - **Premium Domain Focus** for high-value assets
 - **4-Tier Price Betting** for sophisticated wagering
-- **Commit-Reveal Mechanism** for fair betting
+- **First-Bid-Wins Mechanism** for efficient completion
+- **Commit-Reveal Protocol** for fair betting
 - **Independent Operation** for specialized use cases
 
 **🏦 System 3 - Auction-Backed Lending:**
@@ -294,54 +353,14 @@ This **Tri Auction Protocol** provides three specialized systems:
 - **Automatic Settlement** from auction proceeds
 - **NFT Liquidation** on auction failure
 
-👉 Result: **Complete domain trading ecosystem - from bulk portfolio liquidation to premium single-domain auctions with betting and lending mechanisms**
+**🗳️ System 4 - Domain Voting Contest:**
+- **Community Engagement** through token staking
+- **Social Discovery** for trending domains
+- **Gamified Voting** with reward incentives
+- **Anti-Sybil Measures** ensuring fair participation
+- **Staking Rewards** for long-term engagement
+
+👉 Result: **Complete domain trading ecosystem - from bulk portfolio liquidation to premium single-domain auctions with betting, lending, and community voting contests**
 
 ---
 
-## System 4: Domain Voting Contest
-
-**Problem:**
-Domain marketplaces lack community engagement and social discovery mechanisms. Users need ways to discover trending domains while earning rewards for participation.
-
-**Solution: Gamified Social Layer**
-Introduce a voting contest where community members stake tokens to vote for favorite domains, earning long-term staking rewards while boosting domain visibility.
-
-**Key Features:**
-
-1. **Contest Lifecycle**
-- Only one contest active at any given time
-- Contest created by hoster with: startTime, endTime, minStake (e.g., 100 tokens), stakeMultiplier (e.g., 5 → maxStake = minStake × 5)
-
-2. **Voting Mechanism**
-- Users vote for up to 3 domains
-- Vote weight = staking amount (not time-cumulated)
-- Stake per user bounded: minStake ≤ stake ≤ minStake × multiplier
-- Votes locked until contest ends
-
-3. **Anti-Sybil & Fairness**
-- Token staking required to vote
-- Staking cap prevents whales from dominating
-- Each wallet participates only once per contest
-
-4. **Voter Rewards**
-- **Staking Points (time-cumulated)**: StakingPoints = StakeAmount × TimeStaked
-- Encourages early participation and long-term engagement
-- **Rewards distributed after contest**: Fee discounts in future domain auctions/sales, priority whitelists for next contests
-
-5. **Contest Ranking**
-- Domain score = sum of votes (stake amounts)
-- Rankings public and verifiable on-chain
-
-**Example Flow:**
-1. Hoster launches contest (10 days, minStake = 100, multiplier = 5)
-2. Alice stakes 300 → votes for 3 domains
-3. Bob stakes 200 → votes for 2 domains
-4. Carol stakes 500 → votes for 1 domain
-5. Contest ends: Domain A = 500, B = 500, C = 300
-6. Staking points: Alice 3,000, Bob 2,000, Carol 5,000
-7. Users redeem rewards in next auction round
-
-**Benefits:**
-- **Domain Owners**: Visibility, ranking-based promotion, higher sale chances
-- **Voters**: Tangible rewards (NFTs, discounts, points)
-- **Marketplace**: Increased engagement, token utility, fair ecosystem governance
