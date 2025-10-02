@@ -21,6 +21,7 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
         uint256 multiplier;
         bool active;
         bool ended;
+        uint256 totalListed;
         uint256 totalVoted;
         uint256 totalStaked;
     }
@@ -36,6 +37,7 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
     }
 
     // Per contest data
+    mapping(uint256 => uint256[]) public listedDomains;
     mapping(uint256 => mapping(uint256 => address)) public contestDomainOwners; // contestId => domainId => owner
     mapping(uint256 => mapping(uint256 => uint256)) public contestDomainVotes; // contestId => domainId => votes
     mapping(uint256 => mapping(address => Voter)) public contestVoters; // contestId => user => voter
@@ -70,6 +72,10 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
         // Transfer NFT to contract (lock it)
         nftContract.safeTransferFrom(msg.sender, address(this), domainId);
         contestDomainOwners[currentContestId][domainId] = msg.sender;
+        uint256[] storage domains = listedDomains[currentContestId];
+        domains.push(domainId);
+
+        contests[currentContestId].totalListed++;
         emit DomainListed(domainId, msg.sender);
     }
 
@@ -100,6 +106,7 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
             multiplier: multiplier,
             active: true,
             ended: false,
+            totalListed: 0,
             totalVoted: 0,
             totalStaked: 0
         });
@@ -112,7 +119,7 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
      * @param domainIds Array of domain IDs to vote for (max 3)
      * @param stakeAmount Amount to stake for voting
      */
-    function vote(uint256[] calldata domainIds, uint256 stakeAmount) external nonReentrant {
+    function vote(uint256[] calldata domainIds, uint256 stakeAmount) external payable nonReentrant {
         require(contests[currentContestId].active, "No active contest");
         require(block.timestamp >= contests[currentContestId].startTime, "Contest not started");
         require(block.timestamp <= contests[currentContestId].endTime, "Contest ended");
@@ -128,7 +135,11 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
         }
 
         // Transfer tokens to contract (staking)
-        require(stakingToken.transferFrom(msg.sender, address(this), stakeAmount), "Staking transfer failed");
+        if (address(stakingToken) == address(0)) {
+            require(msg.value == stakeAmount, "Incorrect ETH sent");
+        } else {
+            require(stakingToken.transferFrom(msg.sender, address(this), stakeAmount), "Staking transfer failed");
+        }        
 
         // Record vote
         for (uint256 i = 0; i < domainIds.length; i++) {
@@ -215,6 +226,15 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
     }
 
     /**
+     * @dev Get listed domains for a contest
+     * @param contestId ID of the contest
+     * @return Total domains listed in the contest
+     */
+    function getListedDomains(uint256 contestId) external view returns (uint256[] memory) {
+        return listedDomains[contestId];
+    }
+
+    /**
      * @dev Get domain vote count for a contest
      * @param contestId ID of the contest
      * @param domainId Domain ID
@@ -285,7 +305,12 @@ contract VotingContest is ReentrancyGuard, IERC721Receiver {
         delete contestHasVoted[contestId][msg.sender];
 
         // Transfer back tokens
-        require(stakingToken.transfer(msg.sender, voter.stakeAmount), "Unstake transfer failed");
+        if (address(stakingToken) == address(0)) {
+            (bool success, ) = msg.sender.call{value: voter.stakeAmount}("");
+            require(success, "Unstake transfer failed");
+        } else {
+            require(stakingToken.transfer(msg.sender, voter.stakeAmount), "Unstake transfer failed");
+        }
 
         emit Unstaked(msg.sender, voter.stakeAmount);
     }
